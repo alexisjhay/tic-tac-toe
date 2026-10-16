@@ -46,7 +46,7 @@ const gameController = (() => {
 				console.log(
 					`${activePlayer.name} places marker ${activePlayer.token} at cell ${index}`,
 				);
-				checkWinner(gameBoard.getBoard());
+
 				switchTurn();
 			}
 		}
