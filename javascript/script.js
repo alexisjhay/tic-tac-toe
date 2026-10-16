@@ -21,3 +21,22 @@ const createPlayer = (name, token) => {
 		token,
 	};
 };
+
+const gameController = (() => {
+	const player1 = createPlayer("Alexis", "X");
+	const player2 = createPlayer("Maria", "O");
+
+	let activePlayer = player1;
+
+	const switchTurn = () => {
+		activePlayer === player1
+			? (activePlayer = player2)
+			: (activePlayer = player1);
+	};
+
+	return {
+		switchTurn,
+	};
+})();
+
+gameController.playRound();
