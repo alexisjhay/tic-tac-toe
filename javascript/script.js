@@ -46,7 +46,7 @@ const gameController = (() => {
 				console.log(
 					`${activePlayer.name} places marker ${activePlayer.token} at cell ${index}`,
 				);
-
+				checkWinner(gameBoard.getBoard());
 				switchTurn();
 			}
 		}
@@ -66,7 +66,33 @@ const gameController = (() => {
 
 	const allOccupied = () => {
 		if (gameBoard.getBoard().every((index) => index !== "")) {
+			console.log("Draw");
 			isActive = false;
+		}
+	};
+
+	const checkWinner = (board) => {
+		const winConditions = [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+			[0, 4, 8],
+			[2, 4, 6],
+		];
+
+		for (let conditions of winConditions) {
+			const [a, b, c] = conditions;
+
+			if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+				console.log(`${activePlayer.name} wins`);
+				isActive = false;
+				console.log(board[a]);
+				console.log(board[b]);
+				console.log(board[c]);
+			}
 		}
 	};
 
