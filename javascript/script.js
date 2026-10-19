@@ -23,10 +23,7 @@ const createPlayer = (name, token) => {
 };
 
 const displayController = (() => {
-	const container = document.querySelector(".container");
-	const board = document.createElement("div");
-	board.classList.add("gameboard");
-	container.appendChild(board);
+	const board = document.querySelector(".gameboard");
 
 	const clearBoard = () => (board.textContent = "");
 
