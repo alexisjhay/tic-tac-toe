@@ -22,12 +22,51 @@ const createPlayer = (name, token) => {
 	};
 };
 
+const displayController = (() => {
+	const container = document.querySelector(".container");
+	const board = document.createElement("div");
+	board.classList.add("gameboard");
+	container.appendChild(board);
+
+	const clearBoard = () => (board.textContent = "");
+
+	const renderCell = () => {
+		clearBoard();
+
+		for (let mark of gameBoard.getBoard()) {
+			let newCell = document.createElement("div");
+			let cellMark = document.createElement("p");
+
+			cellMark.textContent = mark;
+			newCell.appendChild(cellMark);
+			newCell.classList.add("cell");
+
+			board.appendChild(newCell);
+		}
+	};
+
+	const displayPlayerTurn = () => {
+		const res = document.querySelector(".result");
+		res.textContent = `${gameController.getActivePlayer().name}'s Turn`;
+	};
+
+	renderCell();
+
+	return {
+		renderCell,
+		clearBoard,
+		displayPlayerTurn,
+	};
+})();
+
 const gameController = (() => {
 	const player1 = createPlayer("Alexis", "X");
 	const player2 = createPlayer("Maria", "O");
 
 	let activePlayer = player1;
+
 	let isActive = true;
+	let isWinner = false;
 
 	const switchTurn = () => {
 		activePlayer === player1
@@ -35,38 +74,42 @@ const gameController = (() => {
 			: (activePlayer = player1);
 	};
 
-	const isValidMove = (index) => {
-		if (index < 0 || index > gameBoard.getBoard().length - 1 || index == null) {
-			console.log("Invalid Input");
-		} else {
-			if (gameBoard.getBoard()[index] !== "") {
-				console.log("Cell is taken");
-			} else {
-				gameBoard.placeToken(activePlayer.token, index);
-				console.log(
-					`${activePlayer.name} places marker ${activePlayer.token} at cell ${index}`,
-				);
-				checkWinner(gameBoard.getBoard());
-				switchTurn();
-			}
-		}
-	};
+	const getActivePlayer = () => activePlayer;
+
+	const res = document.querySelector(".result");
 
 	const playRound = () => {
-		do {
-			const position = prompt(`${activePlayer.name}'s turn to enter position`);
+		const cell = document.querySelectorAll(".cell");
 
-			isValidMove(position);
+		displayController.displayPlayerTurn();
 
-			allOccupied();
+		cell.forEach((button, index) => {
+			button.addEventListener("click", () => {
+				if (!isActive) {
+				} else {
+					if (gameBoard.getBoard()[index] !== "") {
+						res.textContent = `${getActivePlayer().name}'s move is Invalid, select again`;
+					} else {
+						gameBoard.placeToken(getActivePlayer().token, index);
+						displayController.renderCell();
+						checkWinner(gameBoard.getBoard());
+						allOccupied();
 
-			console.log(gameBoard.getBoard());
-		} while (isActive);
+						if (isWinner) {
+							res.textContent = `${getActivePlayer().name} wins`;
+						} else {
+							switchTurn();
+							playRound();
+						}
+					}
+				}
+			});
+		});
 	};
 
 	const allOccupied = () => {
 		if (gameBoard.getBoard().every((index) => index !== "")) {
-			console.log("Draw");
+			res.textContent = `Draw`;
 			isActive = false;
 		}
 	};
@@ -87,11 +130,8 @@ const gameController = (() => {
 			const [a, b, c] = conditions;
 
 			if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-				console.log(`${activePlayer.name} wins`);
 				isActive = false;
-				console.log(board[a]);
-				console.log(board[b]);
-				console.log(board[c]);
+				isWinner = true;
 			}
 		}
 	};
@@ -99,6 +139,8 @@ const gameController = (() => {
 	return {
 		switchTurn,
 		playRound,
+		getActivePlayer,
+		checkWinner,
 	};
 })();
 

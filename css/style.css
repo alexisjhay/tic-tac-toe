@@ -1,0 +1,37 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: 0;
+}
+
+body {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.container {
+	height: 100vh;
+	margin: 0 auto;
+	max-width: 700px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.gameboard {
+	display: grid;
+	grid-template-columns: repeat(3, 200px);
+	grid-template-rows: repeat(3, 200px);
+
+	gap: 1rem;
+	justify-content: center;
+}
+
+.cell {
+	height: 100%;
+	width: 100%;
+	border: 1px solid gray;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 5rem;
+}
