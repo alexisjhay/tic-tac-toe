@@ -67,6 +67,7 @@ const gameController = (() => {
 
 	let isActive = true;
 	let isWinner = false;
+	let isDraw;
 
 	const switchTurn = () => {
 		activePlayer === player1
@@ -97,6 +98,8 @@ const gameController = (() => {
 
 						if (isWinner) {
 							res.textContent = `${getActivePlayer().name} wins`;
+						} else if (isDraw) {
+							res.textContent = `Draw`;
 						} else {
 							switchTurn();
 							playRound();
@@ -109,7 +112,7 @@ const gameController = (() => {
 
 	const allOccupied = () => {
 		if (gameBoard.getBoard().every((index) => index !== "")) {
-			res.textContent = `Draw`;
+			isDraw = true;
 			isActive = false;
 		}
 	};
@@ -137,10 +140,8 @@ const gameController = (() => {
 	};
 
 	return {
-		switchTurn,
 		playRound,
 		getActivePlayer,
-		checkWinner,
 	};
 })();
 
