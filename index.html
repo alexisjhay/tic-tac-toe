@@ -12,18 +12,28 @@
 			<h1>Tic-Tac-Toe</h1>
 
 			<form>
-				<label for="player-x">Player X</label>
-				<label for="player-y">Player O</label>
-				<input type="text" placeholder="Player 1" id="player-x" />
+				<label for="player-1">Player X</label>
+				<label for="player-2">Player O</label>
+				<input type="text" placeholder="Player 1" id="player1" required />
 
-				<input type="text" placeholder="Player 2" id="player-y" />
+				<input type="text" placeholder="Player 2" id="player2" required />
 
-				<button type="submit">Start New Game</button>
+				<button type="submit" class="btn-start">Start New Game</button>
 			</form>
 
-			<p class="result"></p>
+			<p class="result">Player 1's Turn</p>
 
-			<div class="gameboard"></div>
+			<div class="gameboard">
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+				<div class="cell"></div>
+			</div>
 
 			<div class="scores">
 				<div class="player1">Player 1(X): 5</div>
