@@ -27,12 +27,18 @@ const displayController = () => {
 
 	const clearBoard = () => (board.textContent = "");
 
-	const renderCell = (activePlayer) => {
+	const renderCell = () => {
 		clearBoard();
 
 		for (let mark of gameBoard.getBoard()) {
 			let newCell = document.createElement("div");
 			let cellMark = document.createElement("p");
+
+			if (mark === "X") {
+				newCell.classList.add("x");
+			} else if (mark === "O") {
+				newCell.classList.add("o");
+			}
 
 			cellMark.textContent = mark;
 
@@ -43,11 +49,11 @@ const displayController = () => {
 		}
 	};
 
+	renderCell();
+
 	const displayPlayerTurn = (res, activePlayer) => {
 		res.textContent = `${activePlayer.name}'s Turn`;
 	};
-
-	renderCell();
 
 	return {
 		renderCell,
@@ -73,8 +79,6 @@ const gameController = () => {
 	};
 
 	const getActivePlayer = () => activePlayer;
-	console.log(getActivePlayer());
-
 	const res = document.querySelector(".result");
 
 	const playRound = () => {
@@ -88,15 +92,15 @@ const gameController = () => {
 				if (!isActive) {
 				} else {
 					if (gameBoard.getBoard()[index] !== "") {
-						res.textContent = `${getActivePlayer().name}'s move is Invalid, select again`;
+						res.textContent = `${activePlayer.name}'s move is Invalid, select again`;
 					} else {
-						gameBoard.placeToken(getActivePlayer().token, index);
-						display.renderCell();
+						gameBoard.placeToken(activePlayer.token, index);
+						display.renderCell(activePlayer.color);
 						checkWinner(gameBoard.getBoard());
 						allOccupied();
 
 						if (isWinner) {
-							res.textContent = `${getActivePlayer().name} wins`;
+							res.textContent = `${activePlayer.name} wins`;
 						} else if (isDraw) {
 							res.textContent = `Draw`;
 						} else {
