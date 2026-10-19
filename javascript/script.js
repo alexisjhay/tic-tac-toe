@@ -16,9 +16,16 @@ const gameBoard = (() => {
 })();
 
 const createPlayer = (name, token) => {
+	let score = 0;
+
+	const getScore = () => score;
+	const addWin = () => (score += 1);
+
 	return {
 		name,
 		token,
+		getScore,
+		addWin,
 	};
 };
 
@@ -34,10 +41,8 @@ const displayController = () => {
 			let newCell = document.createElement("div");
 			let cellMark = document.createElement("p");
 
-			if (mark === "X") {
-				newCell.classList.add("x");
-			} else if (mark === "O") {
-				newCell.classList.add("o");
+			if (mark) {
+				newCell.classList.add(mark.toLowerCase());
 			}
 
 			cellMark.textContent = mark;

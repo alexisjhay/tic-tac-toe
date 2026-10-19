@@ -68,6 +68,7 @@ form button {
 	color: #f76d6c;
 	padding: 0.5rem 1rem;
 	border-radius: 25px;
+	font-weight: 600;
 }
 
 .gameboard {
