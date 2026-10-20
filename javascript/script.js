@@ -9,9 +9,16 @@ const gameBoard = (() => {
 
 	const placeToken = (token, position) => (board[position] = token);
 
+	const resetBoard = () => {
+		for (let i = 0; i < 9; i++) {
+			board[i] = "";
+		}
+	};
+
 	return {
 		getBoard,
 		placeToken,
+		resetBoard,
 	};
 })();
 
@@ -74,7 +81,6 @@ const displayController = () => {
 	};
 
 	renderCell();
-	scorePlayerOne();
 
 	return {
 		renderCell,
@@ -87,6 +93,8 @@ const displayController = () => {
 const gameController = () => {
 	const player1 = startGame.createPlayer1();
 	const player2 = startGame.createPlayer2();
+
+	const display = displayController();
 
 	let isActive = true;
 	let isWinner = false;
@@ -103,8 +111,23 @@ const gameController = () => {
 	const getActivePlayer = () => activePlayer;
 	const res = document.querySelector(".result");
 
+	const restartGame = () => {
+		gameBoard.resetBoard();
+
+		display.renderCell();
+
+		activePlayer = player1;
+
+		isActive = true;
+
+		isWinner = false;
+
+		isDraw = false;
+
+		playRound();
+	};
+
 	const playRound = () => {
-		const display = displayController();
 		const cell = document.querySelectorAll(".cell");
 
 		const renderPlayerScore = () =>
@@ -180,20 +203,32 @@ const gameController = () => {
 	return {
 		playRound,
 		getActivePlayer,
+		restartGame,
 	};
 };
 
 const startGame = (() => {
 	const form = document.querySelector("form");
+	const restart = document.querySelector(".reset");
+
+	let game;
+
 	const playerOne = document.querySelector("#player1");
 	const playerTwo = document.querySelector("#player2");
 
 	const createPlayer1 = () => createPlayer(playerOne.value, "X");
 	const createPlayer2 = () => createPlayer(playerTwo.value, "O");
 
+	restart.addEventListener("click", () => {
+		if (game) {
+			game.restartGame();
+		}
+	});
+
 	form.addEventListener("submit", (e) => {
 		e.preventDefault();
-		const game = gameController();
+		gameBoard.resetBoard();
+		game = gameController();
 		game.playRound();
 	});
 
