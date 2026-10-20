@@ -117,4 +117,23 @@ form button {
 	width: min(500px, 90vw);
 	justify-content: space-between;
 	color: white;
+	align-items: center;
+}
+
+.reset {
+	background-color: transparent;
+	color: var(--mark-x);
+	width: 100px;
+	height: 40px;
+	font-weight: bold;
+	font-size: 1rem;
+	border-radius: 25px;
+	border: 1px solid var(--mark-x);
+	cursor: pointer;
+	transition: 0.1s ease-in;
+}
+
+.reset:hover {
+	background-color: var(--mark-x);
+	color: var(--bg);
 }
