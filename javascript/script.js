@@ -54,16 +54,33 @@ const displayController = () => {
 		}
 	};
 
-	renderCell();
-
 	const displayPlayerTurn = (res, activePlayer) => {
 		res.textContent = `${activePlayer.name}'s Turn`;
 	};
+
+	const scorePlayerOne = (name, score) => {
+		const scoreP1 = document.querySelector(".score-player1");
+		scoreP1.textContent = `${name}(X): ${score}`;
+	};
+
+	const scorePlayerTwo = (name, score) => {
+		const scoreP1 = document.querySelector(".score-player2");
+		scoreP1.textContent = `${name}(O): ${score}`;
+	};
+
+	const playerScores = (p1name, p1score, p2name, p2score) => {
+		scorePlayerOne(p1name, p1score);
+		scorePlayerTwo(p2name, p2score);
+	};
+
+	renderCell();
+	scorePlayerOne();
 
 	return {
 		renderCell,
 		clearBoard,
 		displayPlayerTurn,
+		playerScores,
 	};
 };
 
@@ -89,8 +106,16 @@ const gameController = () => {
 	const playRound = () => {
 		const display = displayController();
 		const cell = document.querySelectorAll(".cell");
+		const renderPlayerScore = () =>
+			display.playerScores(
+				player1.name,
+				player1.getScore(),
+				player2.name,
+				player2.getScore(),
+			);
 
 		display.displayPlayerTurn(res, activePlayer);
+		renderPlayerScore();
 
 		cell.forEach((button, index) => {
 			button.addEventListener("click", () => {
@@ -100,12 +125,14 @@ const gameController = () => {
 						res.textContent = `${activePlayer.name}'s move is Invalid, select again`;
 					} else {
 						gameBoard.placeToken(activePlayer.token, index);
-						display.renderCell(activePlayer.color);
+						display.renderCell();
 						checkWinner(gameBoard.getBoard());
 						allOccupied();
 
 						if (isWinner) {
 							res.textContent = `${activePlayer.name} wins`;
+							activePlayer.addWin();
+							renderPlayerScore();
 						} else if (isDraw) {
 							res.textContent = `Draw`;
 						} else {
