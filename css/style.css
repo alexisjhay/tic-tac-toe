@@ -10,6 +10,7 @@
 	--mark-x: #f76d6c;
 	--cell-bg: #21383b;
 	--mark-o: #10606a;
+	--animation: 0.1s ease-in;
 }
 
 body {
@@ -94,6 +95,12 @@ form button {
 	background-color: var(--cell-bg);
 	box-shadow: 1px 9px 0px -1px #051113;
 	font-weight: bold;
+	cursor: pointer;
+	transition: var(--animation);
+}
+
+.cell:hover {
+	background-color: #21383b8e;
 }
 
 .cell p {
@@ -130,7 +137,7 @@ form button {
 	border-radius: 25px;
 	border: 1px solid var(--mark-x);
 	cursor: pointer;
-	transition: 0.1s ease-in;
+	transition: var(--animation);
 }
 
 .reset:hover {
