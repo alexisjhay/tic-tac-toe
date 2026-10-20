@@ -106,6 +106,7 @@ const gameController = () => {
 	const playRound = () => {
 		const display = displayController();
 		const cell = document.querySelectorAll(".cell");
+
 		const renderPlayerScore = () =>
 			display.playerScores(
 				player1.name,
@@ -114,7 +115,9 @@ const gameController = () => {
 				player2.getScore(),
 			);
 
-		display.displayPlayerTurn(res, activePlayer);
+		const renderPlayerTurn = () => display.displayPlayerTurn(res, activePlayer);
+
+		renderPlayerTurn();
 		renderPlayerScore();
 
 		cell.forEach((button, index) => {
@@ -130,7 +133,7 @@ const gameController = () => {
 						allOccupied();
 
 						if (isWinner) {
-							res.textContent = `${activePlayer.name} wins`;
+							res.textContent = `${activePlayer.name} is the Winner`;
 							activePlayer.addWin();
 							renderPlayerScore();
 						} else if (isDraw) {
